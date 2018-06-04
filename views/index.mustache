@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <link rel="icon" type="image/png" href="images/planys-bg.png" sizes="16x16">
+     <title>Planys</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+
+    <style>
+        .mdl-layout__header {
+            background: #0fabc2;
+        }
+        .mdl-layout.is-small-screen .mdl-layout--large-screen-only{
+            display:block;
+        }
+        .markerWrap{
+            display:flex;
+            width:450px;
+            flex-direction:row;
+            justify-content:space-evenly;
+            margin-top:25px;
+        }
+        table{
+            padding-top:20px;
+            padding-left:25px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title">
+                <image src="images/planys-logo.png" width='150px'; />
+                </span>
+                <!-- Add spacer, to align navigation to the right -->
+                <!-- <div class="mdl-layout-spacer"></div> -->
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                    <a class="mdl-navigation__link" href="">Home</a>
+                    <a class="mdl-navigation__link" href="">Inspection Image</a>
+                    <a class="mdl-navigation__link" href="">Inspection Map</a>
+                    <a class="mdl-navigation__link" href="">Defects Map</a>
+                    <a class="mdl-navigation__link" href="">Inspection Data</a>
+                    <a class="mdl-navigation__link" href="">Observations</a>
+                    <a class="mdl-navigation__link" href="">Conclusions</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Title</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="">Link</a>
+                <a class="mdl-navigation__link" href="">Link</a>
+                <a class="mdl-navigation__link" href="">Link</a>
+                <a class="mdl-navigation__link" href="">Link</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <!-- Your content goes here -->
+                <table class="mdl-data-table mdl-js-data-table">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">S.No</th>
+                            <th class="mdl-data-table__cell--non-numeric">Description</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#data}}
+                        <tr class="viewImg">
+                            <input type="hidden" class="imageId" value="{{imageId}}"/>
+                            <input type="hidden" class="imageDescription" value="{{description}}" />
+                            <td class="mdl-data-table__cell--non-numeric">{{markerId}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{description}}</td>
+                            
+                        </tr>
+                        {{/data}}
+                    </tbody>
+                </table>
+                <div class="markerWrap">
+                {{#data}}
+                    <div class="viewImg">
+                        <input type="hidden" class="imageId" value="{{imageId}}"/>
+                        <input type="hidden" class="imageDescription" value="{{description}}" />
+                        <image src="images/{{markerId}}.png" width="30px">
+                    </div>
+                {{/data}}
+                </div>
+            </div>
+        </main>
+    </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <image id="displayImg" src="images/Pile1.jpeg" width="100%;" />
+        <p id="imgDescription"></p>
+      </div>
+    </div>
+  </div>
+</div>
+    <script>
+    $('table tr').each(function(index) {
+    $(this).find('td:nth-child(1)').html(index);
+});
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    $(".viewImg").click(function(){
+        var imageId = $(this).find(".imageId").val();
+        var imageDescription = $(this).find('.imageDescription').val();
+        var imgPath = 'images/'+ imageId + '.jpeg'
+        $("#displayImg").attr('src',imgPath)
+        $("#imgDescription").html(imageDescription)
+        $("#exampleModal").modal('show')
+    })
+    </script>
+</body>
+
+</html>
